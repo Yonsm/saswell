@@ -39,6 +39,8 @@ async def async_setup_platform(hass, conf, async_add_entities, discovery_info=No
 
 
 class ZhiSaswellClimate(ZhiPollEntity, ClimateEntity):
+    
+    _enable_turn_on_off_backwards_compatibility = False
 
     def __init__(self, conf, sensor_type):
         super().__init__(conf)
@@ -53,7 +55,7 @@ class ZhiSaswellClimate(ZhiPollEntity, ClimateEntity):
         self.sensor_hvac_mode = conf[CONF_SENSOR_HVAC_MODE]
         self.sensor_temperature = conf[CONF_SENSOR_TEMPERATURE]
         self.sensor_preset_mode = conf[CONF_SENSOR_PRESET_MODE]
-        self._attr_supported_features = ClimateEntityFeature.TARGET_TEMPERATURE
+        self._attr_supported_features = ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.TURN_OFF | ClimateEntityFeature.TURN_ON
         if self.sensor_preset_mode:
             self._attr_supported_features |= ClimateEntityFeature.PRESET_MODE
         self._attr_preset_modes = [PRESET_HOME, PRESET_AWAY]
